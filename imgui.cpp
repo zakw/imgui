@@ -768,6 +768,7 @@ CODE
 #pragma warning (disable: 5054)             // operator '|': deprecated between enumerations of different types
 #endif
 #endif
+IMGUI_COMPILER_RUNTIME_CHECKS_OFF();
 
 // Clang/GCC warnings with -Weverything
 #if defined(__clang__)
@@ -10846,6 +10847,8 @@ void ImGui::ShowMetricsWindow(bool* p_open)
 void ImGui::ShowMetricsWindow(bool*) { }
 
 #endif
+
+IMGUI_COMPILER_RUNTIME_CHECKS_ON();
 
 //-----------------------------------------------------------------------------
 
