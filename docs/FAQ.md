@@ -431,7 +431,8 @@ provide similar or better string helpers.
 - You can use the low-level `ImDrawList` api to render shapes within a window.
 
 ```
-ImGui::Begin("My shapes");
+if (!ImGui::Begin("My shapes"))
+    return;
 
 ImDrawList* draw_list = ImGui::GetWindowDrawList();
 
