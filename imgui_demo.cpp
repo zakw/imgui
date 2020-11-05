@@ -3343,9 +3343,10 @@ static void ShowDemoWindowTables()
         ImGui::SetNextItemOpen(open_action != 0);
     if (ImGui::TreeNode("Basic"))
     {
-        // Here we will showcase three different ways to output a table. They are very simple variations of a same thing!
+        // Here we will showcase three different ways to output a table.
+        // They are very simple variations of a same thing!
 
-        // Basic use of tables using TableNextRow() to create a new row, and TableSetColumnIndex() to select the column.
+        // [Method 1] Using TableNextRow() to create a new row, and TableSetColumnIndex() to select the column.
         // In many situations, this is the most flexible and easy to use pattern.
         HelpMarker("Using TableNextRow() + calling TableSetColumnIndex() _before_ each cell, in a loop.");
         if (ImGui::BeginTable("##table1", 3))
@@ -3362,8 +3363,8 @@ static void ShowDemoWindowTables()
             ImGui::EndTable();
         }
 
-        // This essentially the same as above, except instead of using a for loop we call TableSetColumnIndex() manually.
-        // Sometimes this makes more sense.
+        // [Method 2] Using TableNextColumn() called multiple times, instead of using a for loop + TableSetColumnIndex().
+        // This is generally more convenient when you have code manually submitting the contents of each columns.
         HelpMarker("Using TableNextRow() + calling TableNextColumn() _before_ each cell, manually.");
         if (ImGui::BeginTable("##table2", 3))
         {
@@ -3380,12 +3381,13 @@ static void ShowDemoWindowTables()
             ImGui::EndTable();
         }
 
-        // Another subtle variant, we call TableNextColumn() _before_ each cell. At the end of a row, TableNextColumn() will create a new row.
-        // Note that we never TableNextRow() here!
+        // [Method 3] We call TableNextColumn() _before_ each cell. We never call TableNextRow(),
+        // as TableNextColumn() will automatically wrap around and create new roes as needed.
+        // This is generally more convenient when your cells all contains the same type of data.
         HelpMarker(
             "Only using TableNextColumn(), which tends to be convenient for tables where every cells contains the same type of contents.\n"
             "This is also more similar to the old NextColumn() function of the Columns API, and provided to facilitate the Columns->Tables API transition.");
-        if (ImGui::BeginTable("##table4", 3))
+        if (ImGui::BeginTable("##table3", 3))
         {
             for (int item = 0; item < 14; item++)
             {
@@ -3430,7 +3432,6 @@ static void ShowDemoWindowTables()
         ImGui::CheckboxFlags("ImGuiTableFlags_BordersInner", (unsigned int*)&flags, ImGuiTableFlags_BordersInner);
         ImGui::Unindent();
         ImGui::CheckboxFlags("ImGuiTableFlags_NoBordersInBody", (unsigned int*)&flags, ImGuiTableFlags_NoBordersInBody); ImGui::SameLine(); HelpMarker("Disable vertical borders in columns Body (borders will always appears in Headers");
-        ImGui::CheckboxFlags("ImGuiTableFlags_NoBordersInBodyUntilResize", (unsigned int*)&flags, ImGuiTableFlags_NoBordersInBodyUntilResize); ImGui::SameLine(); HelpMarker("Disable vertical borders in columns Body until hovered for resize (borders will always appears in Headers)");
 
         ImGui::AlignTextToFramePadding(); ImGui::Text("Cell contents:");
         ImGui::SameLine(); ImGui::RadioButton("Text", &contents_type, CT_Text);
@@ -3588,7 +3589,7 @@ static void ShowDemoWindowTables()
         ImGui::CheckboxFlags("ImGuiTableFlags_Reorderable", (unsigned int*)&flags, ImGuiTableFlags_Reorderable);
         ImGui::CheckboxFlags("ImGuiTableFlags_Hideable", (unsigned int*)&flags, ImGuiTableFlags_Hideable);
         ImGui::CheckboxFlags("ImGuiTableFlags_NoBordersInBody", (unsigned int*)&flags, ImGuiTableFlags_NoBordersInBody);
-        ImGui::CheckboxFlags("ImGuiTableFlags_NoBordersInBodyUntilResize", (unsigned int*)&flags, ImGuiTableFlags_NoBordersInBodyUntilResize);
+        ImGui::CheckboxFlags("ImGuiTableFlags_NoBordersInBodyUntilResize", (unsigned int*)&flags, ImGuiTableFlags_NoBordersInBodyUntilResize); ImGui::SameLine(); HelpMarker("Disable vertical borders in columns Body until hovered for resize (borders will always appears in Headers)");
         PopStyleCompact();
 
         if (ImGui::BeginTable("##table1", 3, flags))
